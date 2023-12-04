@@ -15,19 +15,42 @@
 
 ; Test problem 9
 (define square (lambda (x) (* x x)))
+; expect square
 (square 21)
+; expect 441
 
 ; Test problem 10
 (define (add2 x y) (+ x y))
+; expect add2
 (add2 2 3)
+; expect 5
 
 ; Test problem 11
 (define f (mu () (* a b)))
-; f
+; expect f
 (define g (lambda () (define a 4) (define b 5) (f)))
-; g
+; expect g
 (g)
-; 20
+; expect 20
+
+; Test problem 12
+(and)
+; expect #t
+(and 4 5 6)  ; all operands are true values
+; expect 6
+(and 4 5 (+ 3 3))
+; expect 6
+(and #t #f 42 (/ 1 0))  ; short-circuiting behavior of and
+; expect #f
+
+(or)
+; expect #f
+(or 5 2 1)  ; 5 is a true value
+; expect 5
+(or #f (- 1 1) 1)  ; 0 is a true value in Scheme
+; expect 0
+(or 4 #t (/ 1 0))  ; short-circuiting behavior of or
+; expect 4
 
 ;;; These are examples from several sections of "The Structure
 ;;; and Interpretation of Computer Programs" by Abelson and Sussman.

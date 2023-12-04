@@ -12,6 +12,22 @@ scm> (define g (lambda () (define a 4) (define b 5) (f)))
 g
 scm> (g)
 20
+scm> (and)
+#t
+scm> (and 4 5 6)  ; all operands are true values
+6
+scm> (and 4 5 (+ 3 3))
+6
+scm> (and #t #f 42 (/ 1 0))  ; short-circuiting behavior of and
+#f
+scm> (or)
+#f
+scm> (or 5 2 1)  ; 5 is a true value
+5
+scm> (or #f (- 1 1) 1)  ; 0 is a true value in Scheme
+0
+scm> (or 4 #t (/ 1 0))  ; short-circuiting behavior of or
+4
 scm> 10
 10
 scm> (+ 137 349)
