@@ -3,7 +3,6 @@ import sys
 from pair import *
 from scheme_utils import *
 from ucb import main, trace
-DEBUG_TRACE = False
 
 import scheme_forms
 
@@ -47,14 +46,15 @@ def scheme_apply(procedure, args, env):
        assert False, "Not a Frame: {}".format(env)
     if isinstance(procedure, BuiltinProcedure):
         # BEGIN PROBLEM 2
+        # Ethan's comments
         # convert scheme list args to python list
+        # args is a scheme list
         python_args = []
         while args != nil:
+            # add the first element of args to python_args
             python_args.append(args.first)
+            # move to the next element in args
             args = args.rest
-        # print py_args if DEBUG_TRACE
-        if DEBUG_TRACE:
-            print('py_args: {0}'.format(python_args))
         # END PROBLEM 2
         try:
             # BEGIN PROBLEM 2
@@ -69,13 +69,20 @@ def scheme_apply(procedure, args, env):
             raise SchemeError('incorrect number of arguments: {0}'.format(procedure))
     elif isinstance(procedure, LambdaProcedure):
         # BEGIN PROBLEM 9
-        # make new frame for procedure
-        new_frame = env.make_child_frame(procedure.formals, args)
+        # Ethan's comments
+        # Need to make a new frame from the lambda procedure
+        # where it's created not where it's called
+        new_frame = procedure.env.make_child_frame(procedure.formals, args)
+        # evaluate the body of the procedure in the new frame
         return eval_all(procedure.body, new_frame)
         # END PROBLEM 9
     elif isinstance(procedure, MuProcedure):
         # BEGIN PROBLEM 11
         "*** YOUR CODE HERE ***"
+        # Ethan's comments
+        # for mu procedure, we don't need to make a new frame
+        # just evaluate the body in the current frame
+        return eval_all(procedure.body, env)
         # END PROBLEM 11
     else:
         assert False, "Unexpected procedure: {}".format(procedure)

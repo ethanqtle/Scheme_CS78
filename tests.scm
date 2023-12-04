@@ -1,3 +1,6 @@
+;;; we can run this tests.scm by
+;;; python3 scheme.py tests.scm
+;;;
 ;;; Test cases for Scheme.
 ;;;
 ;;; In order to run only a prefix of these examples, add the line
@@ -11,12 +14,68 @@
 ;;; ********************************
 
 ; Test problem 9
-(define square (lambda (x) (* x x))) ; See Section 1.3.2
+(define square (lambda (x) (* x x)))
+; expect square
 (square 21)
+; expect 441
 
 ; Test problem 10
 (define (add2 x y) (+ x y))
+; expect add2
 (add2 2 3)
+; expect 5
+
+; Test problem 11
+(define f (mu () (* a b)))
+; expect f
+(define g (lambda () (define a 4) (define b 5) (f)))
+; expect g
+(g)
+; expect 20
+
+; Test problem 12
+(and)
+; expect #t
+(and 4 5 6)  ; all operands are true values
+; expect 6
+(and 4 5 (+ 3 3))
+; expect 6
+(and #t #f 42 (/ 1 0))  ; short-circuiting behavior of and
+; expect #f
+
+(or)
+; expect #f
+(or 5 2 1)  ; 5 is a true value
+; expect 5
+(or #f (- 1 1) 1)  ; 0 is a true value in Scheme
+; expect 0
+(or 4 #t (/ 1 0))  ; short-circuiting behavior of or
+; expect 4
+
+; Test Problem 13
+(cond ((= 4 3) 'nope)
+      ((= 4 4) 'hi)
+      (else 'wait))
+; expect hi
+(cond ((= 4 3) 'wat)
+      ((= 4 4))
+      (else 'hm))
+; expect #t
+(cond ((= 4 4) 'here (+ 40 2))
+      (else 'wat 0))
+; expect 42
+
+; Test problem 14
+(define x 5)
+; expect x
+(define y 'bye)
+; expect y
+(let ((x 42)
+      (y (* x 10)))  ; this x refers to the global value of x, not 42
+  (list x y))
+; expect (42 50)
+(list x y)
+; expect (5 bye)
 
 ;;; These are examples from several sections of "The Structure
 ;;; and Interpretation of Computer Programs" by Abelson and Sussman.
@@ -113,7 +172,6 @@ circumference
 (f 5)
 ; expect 136
 
-(exit)
 ;;; 1.1.6
 
 (define (abs x)
@@ -134,6 +192,7 @@ circumference
 (a-plus-abs-b 3 -2)
 ; expect 5
 
+;(exit)
 ;;; 1.1.7
 
 (define (sqrt-iter guess x)
