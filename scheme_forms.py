@@ -235,11 +235,19 @@ def make_let_frame(bindings, env):
     names = vals = nil
     # BEGIN PROBLEM 14
     "*** YOUR CODE HERE ***"
+    # Ethan's comments
+    # bindings is a list of bindings
     while bindings is not nil:
+        # each binding is a list of length 2
         clause = bindings.first
+        # the first element is the name of the variable
+        # the second element is the value of the variable
+        # check that the clause is a list of length 2
         validate_form(clause, 2, 2)
+        # add the name and value to the list of names and values
         names, vals = Pair(clause.first, names), Pair(scheme_eval(clause.rest.first, env), vals)
         bindings = bindings.rest
+        # check that the names are all symbols
         validate_formals(names)
     # END PROBLEM 14
     return env.make_child_frame(names, vals)
