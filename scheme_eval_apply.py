@@ -3,7 +3,6 @@ import sys
 from pair import *
 from scheme_utils import *
 from ucb import main, trace
-DEBUG_TRACE = False
 
 import scheme_forms
 
@@ -47,14 +46,15 @@ def scheme_apply(procedure, args, env):
        assert False, "Not a Frame: {}".format(env)
     if isinstance(procedure, BuiltinProcedure):
         # BEGIN PROBLEM 2
+        # Ethan's comments
         # convert scheme list args to python list
+        # args is a scheme list
         python_args = []
         while args != nil:
+            # add the first element of args to python_args
             python_args.append(args.first)
+            # move to the next element in args
             args = args.rest
-        # print py_args if DEBUG_TRACE
-        if DEBUG_TRACE:
-            print('py_args: {0}'.format(python_args))
         # END PROBLEM 2
         try:
             # BEGIN PROBLEM 2
