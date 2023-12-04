@@ -192,7 +192,7 @@ circumference
 (a-plus-abs-b 3 -2)
 ; expect 5
 
-(exit)
+;(exit)
 ;;; 1.1.7
 
 (define (sqrt-iter guess x)
