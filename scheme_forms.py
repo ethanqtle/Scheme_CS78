@@ -204,8 +204,12 @@ def do_cond_form(expressions, env):
         if is_scheme_true(test):
             # BEGIN PROBLEM 13
             "*** YOUR CODE HERE ***"
+            # Ethan's comments
             if clause.rest == nil:
+                # no expressions to evaluate
+                # return the test
                 return test
+            # evaluate the expressions in the clause
             return eval_all(clause.rest, env)
             # END PROBLEM 13
         expressions = expressions.rest
