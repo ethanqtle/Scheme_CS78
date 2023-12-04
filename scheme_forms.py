@@ -45,8 +45,14 @@ def do_define_form(expressions, env):
         # defining a named procedure e.g. (define (f x y) (+ x y))
         # BEGIN PROBLEM 10
         "*** YOUR CODE HERE ***"
+        # Ethan's comments:
+        # signature.first is the name of the procedure
+        # signature.rest is the list of parameters
+        # expressions.rest is the body of the procedure
         value = LambdaProcedure(signature.rest, expressions.rest, env)
+        # define the procedure in the current frame
         env.define(signature.first, value)
+        # return the name of the procedure
         return signature.first
         # END PROBLEM 10
     else:
@@ -204,6 +210,12 @@ def make_let_frame(bindings, env):
     names = vals = nil
     # BEGIN PROBLEM 14
     "*** YOUR CODE HERE ***"
+    while bindings is not nil:
+        clause = bindings.first
+        validate_form(clause, 2, 2)
+        names, vals = Pair(clause.first, names), Pair(scheme_eval(clause.rest.first, env), vals)
+        bindings = bindings.rest
+        validate_formals(names)
     # END PROBLEM 14
     return env.make_child_frame(names, vals)
 
@@ -246,6 +258,11 @@ def do_mu_form(expressions, env):
     validate_formals(formals)
     # BEGIN PROBLEM 11
     "*** YOUR CODE HERE ***"
+    # Ethan's comments
+    # Just build a MuProcedure object from the formals and the body
+    # example: (mu (x) (+ x 2))
+    # expressions.first is (x)
+    # expressions.rest is ((+ x 2))
     return MuProcedure(formals, expressions.rest)
     # END PROBLEM 11
 

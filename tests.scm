@@ -65,6 +65,18 @@
       (else 'wat 0))
 ; expect 42
 
+; Test problem 14
+(define x 5)
+; expect x
+(define y 'bye)
+; expect y
+(let ((x 42)
+      (y (* x 10)))  ; this x refers to the global value of x, not 42
+  (list x y))
+; expect (42 50)
+(list x y)
+; expect (5 bye)
+
 ;;; These are examples from several sections of "The Structure
 ;;; and Interpretation of Computer Programs" by Abelson and Sussman.
 

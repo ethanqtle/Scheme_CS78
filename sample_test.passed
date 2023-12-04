@@ -39,6 +39,16 @@ scm> (cond ((= 4 3) 'wat)
 scm> (cond ((= 4 4) 'here (+ 40 2))
            (else 'wat 0))
 42
+scm> (define x 5)
+x
+scm> (define y 'bye)
+y
+scm> (let ((x 42)
+           (y (* x 10)))  ; this x refers to the global value of x, not 42
+       (list x y))
+(42 50)
+scm> (list x y)
+(5 bye)
 scm> 10
 10
 scm> (+ 137 349)
