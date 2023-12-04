@@ -10,6 +10,10 @@
 ;;; *** Add your own tests here! (Optional) ***
 ;;; ********************************
 
+; Test problem 9
+(define square (lambda (x) (* x x))) ; See Section 1.3.2
+(square 21)
+
 ;;; These are examples from several sections of "The Structure
 ;;; and Interpretation of Computer Programs" by Abelson and Sussman.
 
