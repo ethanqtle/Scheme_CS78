@@ -143,7 +143,7 @@ def do_and_form(expressions, env):
     # ...
 
     if expressions == nil:
-        # no expressions evaluates to True
+        # no expressions evaluate to True
         return True
     while expressions.rest != nil:
         # short-circuit evaluation if 
@@ -292,8 +292,8 @@ def do_mu_form(expressions, env):
     # BEGIN PROBLEM 11
     "*** YOUR CODE HERE ***"
     # Ethan's comments
-    # Just build a MuProcedure object from the formals and the body
-    # example: (mu (x) (+ x 2))
+    # Build a MuProcedure object from the formals and the body
+    # Example: (mu (x) (+ x 2))
     # expressions.first is (x)
     # expressions.rest is ((+ x 2))
     return MuProcedure(formals, expressions.rest)
