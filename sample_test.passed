@@ -28,6 +28,17 @@ scm> (or #f (- 1 1) 1)  ; 0 is a true value in Scheme
 0
 scm> (or 4 #t (/ 1 0))  ; short-circuiting behavior of or
 4
+scm> (cond ((= 4 3) 'nope)
+           ((= 4 4) 'hi)
+           (else 'wait))
+hi
+scm> (cond ((= 4 3) 'wat)
+           ((= 4 4))
+           (else 'hm))
+#t
+scm> (cond ((= 4 4) 'here (+ 40 2))
+           (else 'wat 0))
+42
 scm> 10
 10
 scm> (+ 137 349)
@@ -92,5 +103,21 @@ scm> (define (f a)
 f
 scm> (f 5)
 136
+scm> (define (abs x)
+       (cond ((> x 0) x)
+             ((= x 0) 0)
+             ((< x 0) (- x))))
+abs
+scm> (abs -3)
+3
+scm> (abs 0)
+0
+scm> (abs 3)
+3
+scm> (define (a-plus-abs-b a b)
+       ((if (> b 0) + -) a b))
+a-plus-abs-b
+scm> (a-plus-abs-b 3 -2)
+5
 scm> (exit)
 

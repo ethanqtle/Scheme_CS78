@@ -52,6 +52,19 @@
 (or 4 #t (/ 1 0))  ; short-circuiting behavior of or
 ; expect 4
 
+; Test Problem 13
+(cond ((= 4 3) 'nope)
+      ((= 4 4) 'hi)
+      (else 'wait))
+; expect hi
+(cond ((= 4 3) 'wat)
+      ((= 4 4))
+      (else 'hm))
+; expect #t
+(cond ((= 4 4) 'here (+ 40 2))
+      (else 'wat 0))
+; expect 42
+
 ;;; These are examples from several sections of "The Structure
 ;;; and Interpretation of Computer Programs" by Abelson and Sussman.
 
@@ -147,7 +160,6 @@ circumference
 (f 5)
 ; expect 136
 
-(exit)
 ;;; 1.1.6
 
 (define (abs x)
@@ -168,6 +180,7 @@ circumference
 (a-plus-abs-b 3 -2)
 ; expect 5
 
+(exit)
 ;;; 1.1.7
 
 (define (sqrt-iter guess x)
