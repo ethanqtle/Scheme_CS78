@@ -173,11 +173,16 @@ def do_or_form(expressions, env):
     # BEGIN PROBLEM 12
     "*** YOUR CODE HERE ***"
     if expressions == nil:
+        # no expressions evaluates to False
         return False
     while expressions.rest != nil:
+        # short-circuit evaluation if
+        # one of the expressions evaluates to True
         if is_scheme_true(scheme_eval(expressions.first, env)):
+            # return the first expression that evaluates to True
             return scheme_eval(expressions.first, env, True)
         expressions = expressions.rest
+    # return the last expression
     return scheme_eval(expressions.first, env, True)
     # END PROBLEM 12
 
