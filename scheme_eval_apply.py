@@ -3,6 +3,7 @@ import sys
 from pair import *
 from scheme_utils import *
 from ucb import main, trace
+DEBUG_TRACE = False
 
 import scheme_forms
 
@@ -46,12 +47,22 @@ def scheme_apply(procedure, args, env):
        assert False, "Not a Frame: {}".format(env)
     if isinstance(procedure, BuiltinProcedure):
         # BEGIN PROBLEM 2
-        python_args = list(args)
-        if procedure.need_env:
-            python_args.append(env)
+        # convert scheme list args to python list
+        python_args = []
+        while args != nil:
+            python_args.append(args.first)
+            args = args.rest
+        # print py_args if DEBUG_TRACE
+        if DEBUG_TRACE:
+            print('py_args: {0}'.format(python_args))
         # END PROBLEM 2
         try:
             # BEGIN PROBLEM 2
+            "*** YOUR CODE HERE ***"
+            # check if procedure needs env
+            if procedure.need_env:
+                python_args.append(env)
+            # apply procedure
             return procedure.py_func(*python_args)
             # END PROBLEM 2
         except TypeError as err:

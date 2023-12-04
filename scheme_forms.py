@@ -36,7 +36,7 @@ def do_define_form(expressions, env):
         # assigning a name to a value e.g. (define x (+ 1 2))
         validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
         # BEGIN PROBLEM 4
-       symbol = signature
+        symbol = signature
         value = scheme_eval(expressions.rest.first, env)
         env.define(symbol, value)
         return symbol
@@ -59,6 +59,8 @@ def do_quote_form(expressions, env):
     """
     validate_form(expressions, 1, 1)
     # BEGIN PROBLEM 5
+    "*** YOUR CODE HERE ***"
+    # return expressions.first
     return expressions.first
     # END PROBLEM 5
 
@@ -85,8 +87,7 @@ def do_lambda_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM 7
-    body = expressions.rest
-    return LambdaProcedure(formals, body, env)
+    "*** YOUR CODE HERE ***"
     # END PROBLEM 7
 
 def do_if_form(expressions, env):

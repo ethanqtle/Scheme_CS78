@@ -75,6 +75,9 @@ size
 circumference
 ; expect 62.8318
 
+; Done with problem 5
+;(exit)
+
 ;;; 1.1.4
 
 (define (square x) (* x x))
