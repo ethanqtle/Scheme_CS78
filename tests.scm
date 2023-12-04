@@ -1,3 +1,6 @@
+;;; we can run this tests.scm by
+;;; python3 scheme.py tests.scm
+;;;
 ;;; Test cases for Scheme.
 ;;;
 ;;; In order to run only a prefix of these examples, add the line
@@ -11,12 +14,20 @@
 ;;; ********************************
 
 ; Test problem 9
-(define square (lambda (x) (* x x))) ; See Section 1.3.2
+(define square (lambda (x) (* x x)))
 (square 21)
 
 ; Test problem 10
 (define (add2 x y) (+ x y))
 (add2 2 3)
+
+; Test problem 11
+(define f (mu () (* a b)))
+; f
+(define g (lambda () (define a 4) (define b 5) (f)))
+; g
+(g)
+; 20
 
 ;;; These are examples from several sections of "The Structure
 ;;; and Interpretation of Computer Programs" by Abelson and Sussman.

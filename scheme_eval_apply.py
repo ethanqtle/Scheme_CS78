@@ -76,6 +76,8 @@ def scheme_apply(procedure, args, env):
     elif isinstance(procedure, MuProcedure):
         # BEGIN PROBLEM 11
         "*** YOUR CODE HERE ***"
+        # evaluate the
+        return eval_all(procedure.body, env)
         # END PROBLEM 11
     else:
         assert False, "Unexpected procedure: {}".format(procedure)

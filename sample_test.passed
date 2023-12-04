@@ -1,0 +1,80 @@
+scm> (define square (lambda (x) (* x x)))
+square
+scm> (square 21)
+441
+scm> (define (add2 x y) (+ x y))
+add2
+scm> (add2 2 3)
+5
+scm> (define f (mu () (* a b)))
+f
+scm> (define g (lambda () (define a 4) (define b 5) (f)))
+g
+scm> (g)
+20
+scm> 10
+10
+scm> (+ 137 349)
+486
+scm> (- 1000 334)
+666
+scm> (* 5 99)
+495
+scm> (/ 10 5)
+2
+scm> (+ 2.7 10)
+12.7
+scm> (+ 21 35 12 7)
+75
+scm> (* 25 4 12)
+1200
+scm> (+ (* 3 5) (- 10 6))
+19
+scm> (+ (* 3 (+ (* 2 4) (+ 3 5))) (+ (- 10 7) 6))
+57
+scm> (+ (* 3
+           (+ (* 2 4)
+              (+ 3 5)))
+        (+ (- 10 7)
+           6))
+57
+scm> (define size 2)
+size
+scm> size
+2
+scm> (* 5 size)
+10
+scm> (define pi 3.14159)
+pi
+scm> (define radius 10)
+radius
+scm> (* pi (* radius radius))
+314.159
+scm> (define circumference (* 2 pi radius))
+circumference
+scm> circumference
+62.8318
+scm> (define (square x) (* x x))
+square
+scm> (square 21)
+441
+scm> (define square (lambda (x) (* x x))) ; See Section 1.3.2
+square
+scm> (square 21)
+441
+scm> (square (+ 2 5))
+49
+scm> (square (square 3))
+81
+scm> (define (sum-of-squares x y)
+       (+ (square x) (square y)))
+sum-of-squares
+scm> (sum-of-squares 3 4)
+25
+scm> (define (f a)
+       (sum-of-squares (+ a 1) (* a 2)))
+f
+scm> (f 5)
+136
+scm> (exit)
+
