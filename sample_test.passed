@@ -416,13 +416,13 @@ scm> (double 5)
 scm> (define compose (lambda (f g) (lambda (x) (f (g x)))))
 compose
 scm> ((compose list double) 5)
-Error: Incorrect number of arguments to function call
+(10)
 scm> (define apply-twice (lambda (f) (compose f f)))
 apply-twice
 scm> ((apply-twice double) 5)
-Error: Incorrect number of arguments to function call
+20
 scm> ((apply-twice (apply-twice double)) 5)
-Error: Incorrect number of arguments to function call
+80
 scm> (define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))
 fact
 scm> (fact 3)
@@ -438,7 +438,7 @@ combine
 scm> (define zip (combine cons))
 zip
 scm> (zip (list 1 2 3 4) (list 5 6 7 8))
-Error: operand 0 ((4 8)) is not a number
+((1 5) (2 6) (3 7) (4 8))
 scm> (define riff-shuffle (lambda (deck) (begin
          (define take (lambda (n seq) (if (<= n 0) (quote ()) (cons (car seq) (take (- n 1) (cdr seq))))))
          (define drop (lambda (n seq) (if (<= n 0) seq (drop (- n 1) (cdr seq)))))
@@ -446,11 +446,11 @@ scm> (define riff-shuffle (lambda (deck) (begin
          ((combine append) (take (mid deck) deck) (drop (mid deck) deck)))))
 riff-shuffle
 scm> (riff-shuffle (list 1 2 3 4 5 6 7 8))
-Error: operand 0 ((4 8)) is not a number
+(1 5 2 6 3 7 4 8)
 scm> ((apply-twice riff-shuffle) (list 1 2 3 4 5 6 7 8))
-Error: Incorrect number of arguments to function call
+(1 3 5 7 2 4 6 8)
 scm> (riff-shuffle (riff-shuffle (riff-shuffle (list 1 2 3 4 5 6 7 8))))
-Error: operand 0 ((4 8)) is not a number
+(1 2 3 4 5 6 7 8)
 scm> (apply square '(2))
 4
 scm> (apply + '(1 2 3 4))
