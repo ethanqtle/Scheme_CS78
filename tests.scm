@@ -14,6 +14,10 @@
 (define square (lambda (x) (* x x))) ; See Section 1.3.2
 (square 21)
 
+; Test problem 10
+(define (add2 x y) (+ x y))
+(add2 2 3)
+
 ;;; These are examples from several sections of "The Structure
 ;;; and Interpretation of Computer Programs" by Abelson and Sussman.
 
@@ -80,7 +84,7 @@ circumference
 ; expect 62.8318
 
 ; Done with problem 5
-(exit)
+
 
 ;;; 1.1.4
 
@@ -109,6 +113,7 @@ circumference
 (f 5)
 ; expect 136
 
+(exit)
 ;;; 1.1.6
 
 (define (abs x)
