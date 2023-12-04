@@ -69,7 +69,9 @@ def scheme_apply(procedure, args, env):
             raise SchemeError('incorrect number of arguments: {0}'.format(procedure))
     elif isinstance(procedure, LambdaProcedure):
         # BEGIN PROBLEM 9
-        "*** YOUR CODE HERE ***"
+        # make new frame for procedure
+        new_frame = env.make_child_frame(procedure.formals, args)
+        return eval_all(procedure.body, new_frame)
         # END PROBLEM 9
     elif isinstance(procedure, MuProcedure):
         # BEGIN PROBLEM 11

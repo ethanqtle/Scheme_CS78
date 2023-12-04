@@ -10,6 +10,10 @@
 ;;; *** Add your own tests here! (Optional) ***
 ;;; ********************************
 
+; Test problem 9
+(define square (lambda (x) (* x x))) ; See Section 1.3.2
+(square 21)
+
 ;;; These are examples from several sections of "The Structure
 ;;; and Interpretation of Computer Programs" by Abelson and Sussman.
 
@@ -76,7 +80,7 @@ circumference
 ; expect 62.8318
 
 ; Done with problem 5
-;(exit)
+(exit)
 
 ;;; 1.1.4
 
