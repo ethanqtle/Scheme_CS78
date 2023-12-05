@@ -60,14 +60,17 @@ index f17c30d..06c61fb 100644
  ;; Optional Problem 2
  
 diff --git a/scheme_classes.py b/scheme_classes.py
-index bb0245b..43de2d5 100644
+index bb0245b..029fe02 100644
 --- a/scheme_classes.py
 +++ b/scheme_classes.py
-@@ -26,15 +26,19 @@ class Frame:
+@@ -26,15 +26,25 @@ class Frame:
      def define(self, symbol, value):
          """Define Scheme SYMBOL to have VALUE."""
          # BEGIN PROBLEM 1
 -        "*** YOUR CODE HERE ***"
++        # Ethan's comments
++        # add the symbol and value to the current frame
++        # can overwrite existing bindings
 +        self.bindings[symbol] = value
          # END PROBLEM 1
  
@@ -76,8 +79,11 @@ index bb0245b..43de2d5 100644
          # BEGIN PROBLEM 1
 -        "*** YOUR CODE HERE ***"
 +        if symbol in self.bindings:
++            # if the symbol is in the current frame, return the value
 +            return self.bindings[symbol]
 +        elif self.parent is not None:
++            # if parent is not None, look up the symbol in the parent frame
++            # this will be recursive until we reach the global frame
 +            return self.parent.lookup(symbol)
 +        else:
 +            raise SchemeError('unknown identifier: {0}'.format(symbol))
@@ -86,36 +92,44 @@ index bb0245b..43de2d5 100644
  
  
      def make_child_frame(self, formals, vals):
-@@ -51,7 +55,12 @@ class Frame:
+@@ -51,7 +61,15 @@ class Frame:
          if len(formals) != len(vals):
              raise SchemeError('Incorrect number of arguments to function call')
          # BEGIN PROBLEM 8
 -        "*** YOUR CODE HERE ***"
++        # Ethan's comments
++        # create a new frame with the current frame as the parent
 +        new_frame = Frame(self)
 +        while formals != nil:
++            # define the symbol and value in the new frame
 +            new_frame.define(formals.first, vals.first)
-+            formals = formals.rest
-+            vals = vals.rest
++            # move on to the next symbol and value
++            formals, vals = formals.rest, vals.rest
 +        return new_frame
          # END PROBLEM 8
  
  ##############
 diff --git a/scheme_eval_apply.py b/scheme_eval_apply.py
-index 465c875..2751acb 100644
+index 465c875..204a9ea 100644
 --- a/scheme_eval_apply.py
 +++ b/scheme_eval_apply.py
-@@ -33,7 +33,9 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
+@@ -33,7 +33,14 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
          return scheme_forms.SPECIAL_FORMS[first](rest, env)
      else:
          # BEGIN PROBLEM 3
 -        "*** YOUR CODE HERE ***"
++        # Ethan's comments
++        # evaluate the first element of the list since operator
++        # can also be an expression
 +        operator = scheme_eval(first, env)
++        # evaluate the rest of the elements in the list
++        # and put them in a scheme list => use map
 +        operands = rest.map(lambda operand: scheme_eval(operand, env))
 +        return scheme_apply(operator, operands, env)
          # END PROBLEM 3
  
  def scheme_apply(procedure, args, env):
-@@ -44,21 +46,43 @@ def scheme_apply(procedure, args, env):
+@@ -44,21 +51,45 @@ def scheme_apply(procedure, args, env):
         assert False, "Not a Frame: {}".format(env)
      if isinstance(procedure, BuiltinProcedure):
          # BEGIN PROBLEM 2
@@ -136,7 +150,8 @@ index 465c875..2751acb 100644
 +            # check if procedure needs env
 +            if procedure.need_env:
 +                python_args.append(env)
-+            # apply procedure
++            # apply procedure on python_args
++            # which is a python list
 +            return procedure.py_func(*python_args)
              # END PROBLEM 2
          except TypeError as err:
@@ -156,35 +171,47 @@ index 465c875..2751acb 100644
          "*** YOUR CODE HERE ***"
 +        # Ethan's comments
 +        # for mu procedure, we don't need to make a new frame
-+        # just evaluate the body in the current frame
++        # just evaluate the body in the current frame.
++        # This is because mu procedure has dynamic scope
 +        return eval_all(procedure.body, env)
          # END PROBLEM 11
      else:
          assert False, "Unexpected procedure: {}".format(procedure)
-@@ -79,7 +103,11 @@ def eval_all(expressions, env):
+@@ -79,7 +110,16 @@ def eval_all(expressions, env):
      2
      """
      # BEGIN PROBLEM 6
 -    return scheme_eval(expressions.first, env) # replace this with lines of your own code
++    # Ethan's comments
++    # save the last result in last_val
 +    last_val = None
 +    while expressions != nil:
++        # for begin, we need to evaluate all the expressions
 +        last_val = scheme_eval(expressions.first, env)
++        # move on to the next expression
 +        expressions = expressions.rest
++    # return the last result
 +    return last_val
      # END PROBLEM 6
  
  
 diff --git a/scheme_forms.py b/scheme_forms.py
-index b18a420..a355678 100644
+index b18a420..75dd835 100644
 --- a/scheme_forms.py
 +++ b/scheme_forms.py
-@@ -36,12 +36,24 @@ def do_define_form(expressions, env):
+@@ -36,12 +36,30 @@ def do_define_form(expressions, env):
          # assigning a name to a value e.g. (define x (+ 1 2))
          validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
          # BEGIN PROBLEM 4
 -        "*** YOUR CODE HERE ***"
++        # Ethan's comments:
++        # signature is the name of the variable
 +        symbol = signature
++        # expressions.rest is a scheme list of length 1
++        # expressions.rest.first is the value of the variable
++        # the value of the variable is the result of evaluating the value
 +        value = scheme_eval(expressions.rest.first, env)
++        # define the variable in the current frame
 +        env.define(symbol, value)
 +        return symbol
          # END PROBLEM 4
@@ -204,7 +231,7 @@ index b18a420..a355678 100644
          # END PROBLEM 10
      else:
          bad_signature = signature.first if isinstance(signature, Pair) else signature
-@@ -57,6 +69,8 @@ def do_quote_form(expressions, env):
+@@ -57,6 +75,8 @@ def do_quote_form(expressions, env):
      validate_form(expressions, 1, 1)
      # BEGIN PROBLEM 5
      "*** YOUR CODE HERE ***"
@@ -213,17 +240,23 @@ index b18a420..a355678 100644
      # END PROBLEM 5
  
  def do_begin_form(expressions, env):
-@@ -82,7 +96,8 @@ def do_lambda_form(expressions, env):
+@@ -82,7 +102,14 @@ def do_lambda_form(expressions, env):
      formals = expressions.first
      validate_formals(formals)
      # BEGIN PROBLEM 7
 -    "*** YOUR CODE HERE ***"
++    # Ethan's comments
++    # formals is a list of parameters
++    # expressions.rest is the body of the procedure
++    # Example: (lambda (x) (+ x 2))
++    # formals is (x)
++    # expressions.rest is ((+ x 2))
 +    body = expressions.rest
 +    return LambdaProcedure(formals, body, env)
      # END PROBLEM 7
  
  def do_if_form(expressions, env):
-@@ -116,6 +131,29 @@ def do_and_form(expressions, env):
+@@ -116,6 +143,29 @@ def do_and_form(expressions, env):
      """
      # BEGIN PROBLEM 12
      "*** YOUR CODE HERE ***"
@@ -253,7 +286,7 @@ index b18a420..a355678 100644
      # END PROBLEM 12
  
  def do_or_form(expressions, env):
-@@ -134,6 +172,18 @@ def do_or_form(expressions, env):
+@@ -134,6 +184,18 @@ def do_or_form(expressions, env):
      """
      # BEGIN PROBLEM 12
      "*** YOUR CODE HERE ***"
@@ -272,7 +305,7 @@ index b18a420..a355678 100644
      # END PROBLEM 12
  
  def do_cond_form(expressions, env):
-@@ -154,6 +204,13 @@ def do_cond_form(expressions, env):
+@@ -154,6 +216,13 @@ def do_cond_form(expressions, env):
          if is_scheme_true(test):
              # BEGIN PROBLEM 13
              "*** YOUR CODE HERE ***"
@@ -286,7 +319,7 @@ index b18a420..a355678 100644
              # END PROBLEM 13
          expressions = expressions.rest
  
-@@ -178,6 +235,20 @@ def make_let_frame(bindings, env):
+@@ -178,6 +247,20 @@ def make_let_frame(bindings, env):
      names = vals = nil
      # BEGIN PROBLEM 14
      "*** YOUR CODE HERE ***"
@@ -307,7 +340,7 @@ index b18a420..a355678 100644
      # END PROBLEM 14
      return env.make_child_frame(names, vals)
  
-@@ -220,6 +291,12 @@ def do_mu_form(expressions, env):
+@@ -220,6 +303,12 @@ def do_mu_form(expressions, env):
      validate_formals(formals)
      # BEGIN PROBLEM 11
      "*** YOUR CODE HERE ***"
@@ -321,7 +354,7 @@ index b18a420..a355678 100644
  
  
 diff --git a/tests.scm b/tests.scm
-index a54828d..ef2100d 100644
+index a54828d..317b33b 100644
 --- a/tests.scm
 +++ b/tests.scm
 @@ -1,3 +1,6 @@
@@ -331,10 +364,90 @@ index a54828d..ef2100d 100644
  ;;; Test cases for Scheme.
  ;;;
  ;;; In order to run only a prefix of these examples, add the line
-@@ -10,6 +13,70 @@
+@@ -9,6 +12,157 @@
+ ;;; ********************************
  ;;; *** Add your own tests here! (Optional) ***
  ;;; ********************************
- 
++; Test problem 1
+++
++; expect #[+]
++odd?
++; expect #[odd?]
++
++; Test problem 2
++; No tests for problem 2 from scm
++
++; Test problem 3
++(+ 1 2)
++; expect 3
++(* 3 4 (- 5 2) 1)
++; expect 36
++(odd? 31)
++; expect #t
++
++; Test problem 4
++(define a (+ 2 3))  ; Binds the symbol a to the value of (+ 2 3)
++; expect a
++(define (foo x) x)  ; Creates a procedure and binds it to the symbol foo
++; expect foo
++(define x 15)
++; expect x
++(define y (* 2 x))
++; expect y
++y
++; expect 30
++(define x 0)
++; expect x
++((define x (+ x 1)) 2)
++; expect Error
++x
++; expect 1
++
++; Test problem 5
++(quote hello)
++; expect hello
++'(cons 1 2)  ; Equivalent to (quote (cons 1 2))
++; expect (cons 1 2)
++
++(quote a)
++; expect a
++(quote (1 2))
++; expect (1 2)
++(quote (1 (2 three (4 5))))
++; expect (1 (2 three (4 5)))
++(car (quote (a b)))
++; expect a
++'hello
++; expect hello
++'(1 2)
++; expect (1 2)
++'(1 (2 three (4 5)))
++; expect (1 (2 three (4 5)))
++(car '(a b))
++; expect a
++(eval (cons 'car '('(1 2))))
++; expect 1
++(eval (define tau 6.28))
++; expect 6.28
++(eval 'tau)
++; expect 6.28
++tau
++; expect 6.28
++
++; Test problem 6
++(begin (+ 2 3) (+ 5 6))
++; expect 11
++(define x (begin (display 3) (newline) (+ 2 3)))
++; expect 3; x
++(+ x 3)
++; expect 8
++(begin (print 3) '(+ 2 3))
++; expect 3; (+ 2 3)
++
++; Test problem 7
++(lambda (x y) (+ x y))
++; expect (lambda (x y) (+ x y))
++
 +; Test problem 9
 +(define square (lambda (x) (* x x)))
 +; expect square
@@ -342,10 +455,18 @@ index a54828d..ef2100d 100644
 +; expect 441
 +
 +; Test problem 10
-+(define (add2 x y) (+ x y))
-+; expect add2
-+(add2 2 3)
-+; expect 5
++(define f (lambda (x) (* x 2)))
++; expect f
++(f 4)
++; expect 8
++scm> (define (f x) (* x 2))
++; expect f
++(f 2)
++; expect 4
++(define (g y) (print y) (+ y 1))
++; expect g
++(g 3)
++; expect 3; 4
 +
 +; Test problem 11
 +(define f (mu () (* a b)))
@@ -398,11 +519,10 @@ index a54828d..ef2100d 100644
 +; expect (42 50)
 +(list x y)
 +; expect (5 bye)
-+
+ 
  ;;; These are examples from several sections of "The Structure
  ;;; and Interpretation of Computer Programs" by Abelson and Sussman.
- 
-@@ -75,6 +142,9 @@ size
+@@ -75,6 +229,9 @@ size
  circumference
  ; expect 62.8318
  
@@ -412,7 +532,7 @@ index a54828d..ef2100d 100644
  ;;; 1.1.4
  
  (define (square x) (* x x))
-@@ -122,6 +192,7 @@ circumference
+@@ -122,6 +279,7 @@ circumference
  (a-plus-abs-b 3 -2)
  ; expect 5
  
