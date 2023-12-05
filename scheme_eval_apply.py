@@ -86,10 +86,10 @@ def scheme_apply(procedure, args, env):
         # BEGIN PROBLEM 11
         "*** YOUR CODE HERE ***"
         # Ethan's comments
-        # for mu procedure, we don't need to make a new frame
-        # just evaluate the body in the current frame.
-        # This is because mu procedure has dynamic scope
-        return eval_all(procedure.body, env)
+        # make a new frame from the mu procedure from where it's called
+        # not where it's created => use env
+        mu_env = env.make_child_frame(procedure.formals, args)
+        return eval_all(procedure.body, mu_env)
         # END PROBLEM 11
     else:
         assert False, "Unexpected procedure: {}".format(procedure)
