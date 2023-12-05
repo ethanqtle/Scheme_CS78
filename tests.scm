@@ -43,9 +43,10 @@ y
 (define x 0)
 ; expect x
 ((define x (+ x 1)) 2)
-; expect SchemeError
+; expect Error
 x
 ; expect 1
+
 ; Test problem 5
 
 ; Test problem 9
