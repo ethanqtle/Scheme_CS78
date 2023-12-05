@@ -78,6 +78,20 @@ x
 tau
 ; expect 6.28
 
+; Test problem 6
+(begin (+ 2 3) (+ 5 6))
+; expect 11
+(define x (begin (display 3) (newline) (+ 2 3)))
+; expect 3; x
+(+ x 3)
+; expect 8
+(begin (print 3) '(+ 2 3))
+; expect 3; (+ 2 3)
+
+; Test problem 7
+(lambda (x y) (+ x y))
+; expect (lambda (x y) (+ x y))
+
 ; Test problem 9
 (define square (lambda (x) (* x x)))
 ; expect square
