@@ -1,7 +1,7 @@
 #!env bash
 
 for test_case in {01..16}; do
-  python ok -q $test_case
+  python ok --local -q $test_case
 done
-python ok -q eval_apply
-python ok -q tests.scm
+python ok --local -q eval_apply
+python ok --local -q tests.scm
