@@ -12,6 +12,85 @@
 ;;; ********************************
 ;;; *** Add your own tests here! (Optional) ***
 ;;; ********************************
+; Test problem 1
++
+; expect #[+]
+odd?
+; expect #[odd?]
+
+; Test problem 2
+; No tests for problem 2 from scm
+
+; Test problem 3
+(+ 1 2)
+; expect 3
+(* 3 4 (- 5 2) 1)
+; expect 36
+(odd? 31)
+; expect #t
+
+; Test problem 4
+(define a (+ 2 3))  ; Binds the symbol a to the value of (+ 2 3)
+; expect a
+(define (foo x) x)  ; Creates a procedure and binds it to the symbol foo
+; expect foo
+(define x 15)
+; expect x
+(define y (* 2 x))
+; expect y
+y
+; expect 30
+(define x 0)
+; expect x
+((define x (+ x 1)) 2)
+; expect Error
+x
+; expect 1
+
+; Test problem 5
+(quote hello)
+; expect hello
+'(cons 1 2)  ; Equivalent to (quote (cons 1 2))
+; expect (cons 1 2)
+
+(quote a)
+; expect a
+(quote (1 2))
+; expect (1 2)
+(quote (1 (2 three (4 5))))
+; expect (1 (2 three (4 5)))
+(car (quote (a b)))
+; expect a
+'hello
+; expect hello
+'(1 2)
+; expect (1 2)
+'(1 (2 three (4 5)))
+; expect (1 (2 three (4 5)))
+(car '(a b))
+; expect a
+(eval (cons 'car '('(1 2))))
+; expect 1
+(eval (define tau 6.28))
+; expect 6.28
+(eval 'tau)
+; expect 6.28
+tau
+; expect 6.28
+
+; Test problem 6
+(begin (+ 2 3) (+ 5 6))
+; expect 11
+(define x (begin (display 3) (newline) (+ 2 3)))
+; expect 3; x
+(+ x 3)
+; expect 8
+(begin (print 3) '(+ 2 3))
+; expect 3; (+ 2 3)
+
+; Test problem 7
+(lambda (x y) (+ x y))
+; expect (lambda (x y) (+ x y))
 
 ; Test problem 9
 (define square (lambda (x) (* x x)))
@@ -20,10 +99,18 @@
 ; expect 441
 
 ; Test problem 10
-(define (add2 x y) (+ x y))
-; expect add2
-(add2 2 3)
-; expect 5
+(define f (lambda (x) (* x 2)))
+; expect f
+(f 4)
+; expect 8
+scm> (define (f x) (* x 2))
+; expect f
+(f 2)
+; expect 4
+(define (g y) (print y) (+ y 1))
+; expect g
+(g 3)
+; expect 3; 4
 
 ; Test problem 11
 (define f (mu () (* a b)))

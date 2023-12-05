@@ -33,7 +33,12 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
         return scheme_forms.SPECIAL_FORMS[first](rest, env)
     else:
         # BEGIN PROBLEM 3
+        # Ethan's comments
+        # evaluate the first element of the list since operator
+        # can also be an expression
         operator = scheme_eval(first, env)
+        # evaluate the rest of the elements in the list
+        # and put them in a scheme list => use map
         operands = rest.map(lambda operand: scheme_eval(operand, env))
         return scheme_apply(operator, operands, env)
         # END PROBLEM 3
@@ -62,7 +67,8 @@ def scheme_apply(procedure, args, env):
             # check if procedure needs env
             if procedure.need_env:
                 python_args.append(env)
-            # apply procedure
+            # apply procedure on python_args
+            # which is a python list
             return procedure.py_func(*python_args)
             # END PROBLEM 2
         except TypeError as err:
@@ -81,7 +87,8 @@ def scheme_apply(procedure, args, env):
         "*** YOUR CODE HERE ***"
         # Ethan's comments
         # for mu procedure, we don't need to make a new frame
-        # just evaluate the body in the current frame
+        # just evaluate the body in the current frame.
+        # This is because mu procedure has dynamic scope
         return eval_all(procedure.body, env)
         # END PROBLEM 11
     else:
@@ -103,10 +110,15 @@ def eval_all(expressions, env):
     2
     """
     # BEGIN PROBLEM 6
+    # Ethan's comments
+    # save the last result in last_val
     last_val = None
     while expressions != nil:
+        # for begin, we need to evaluate all the expressions
         last_val = scheme_eval(expressions.first, env)
+        # move on to the next expression
         expressions = expressions.rest
+    # return the last result
     return last_val
     # END PROBLEM 6
 
