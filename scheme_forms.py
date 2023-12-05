@@ -36,8 +36,14 @@ def do_define_form(expressions, env):
         # assigning a name to a value e.g. (define x (+ 1 2))
         validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
         # BEGIN PROBLEM 4
+        # Ethan's comments:
+        # signature is the name of the variable
         symbol = signature
+        # expressions.rest is a scheme list of length 1
+        # expressions.rest.first is the value of the variable
+        # the value of the variable is the result of evaluating the value
         value = scheme_eval(expressions.rest.first, env)
+        # define the variable in the current frame
         env.define(symbol, value)
         return symbol
         # END PROBLEM 4
@@ -96,6 +102,12 @@ def do_lambda_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM 7
+    # Ethan's comments
+    # formals is a list of parameters
+    # expressions.rest is the body of the procedure
+    # Example: (lambda (x) (+ x 2))
+    # formals is (x)
+    # expressions.rest is ((+ x 2))
     body = expressions.rest
     return LambdaProcedure(formals, body, env)
     # END PROBLEM 7
