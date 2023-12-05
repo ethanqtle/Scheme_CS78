@@ -110,7 +110,7 @@ index bb0245b..029fe02 100644
  
  ##############
 diff --git a/scheme_eval_apply.py b/scheme_eval_apply.py
-index 465c875..204a9ea 100644
+index 465c875..c685dbb 100644
 --- a/scheme_eval_apply.py
 +++ b/scheme_eval_apply.py
 @@ -33,7 +33,14 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
@@ -170,10 +170,10 @@ index 465c875..204a9ea 100644
          # BEGIN PROBLEM 11
          "*** YOUR CODE HERE ***"
 +        # Ethan's comments
-+        # for mu procedure, we don't need to make a new frame
-+        # just evaluate the body in the current frame.
-+        # This is because mu procedure has dynamic scope
-+        return eval_all(procedure.body, env)
++        # make a new frame from the mu procedure from where it's called
++        # not where it's created => use env
++        mu_env = env.make_child_frame(procedure.formals, args)
++        return eval_all(procedure.body, mu_env)
          # END PROBLEM 11
      else:
          assert False, "Unexpected procedure: {}".format(procedure)
@@ -196,10 +196,10 @@ index 465c875..204a9ea 100644
  
  
 diff --git a/scheme_forms.py b/scheme_forms.py
-index b18a420..75dd835 100644
+index b18a420..987e772 100644
 --- a/scheme_forms.py
 +++ b/scheme_forms.py
-@@ -36,12 +36,30 @@ def do_define_form(expressions, env):
+@@ -36,12 +36,32 @@ def do_define_form(expressions, env):
          # assigning a name to a value e.g. (define x (+ 1 2))
          validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
          # BEGIN PROBLEM 4
@@ -223,6 +223,8 @@ index b18a420..75dd835 100644
 +        # signature.first is the name of the procedure
 +        # signature.rest is the list of parameters
 +        # expressions.rest is the body of the procedure
++        # must check that the parameters are all symbols
++        validate_formals(signature.rest)
 +        value = LambdaProcedure(signature.rest, expressions.rest, env)
 +        # define the procedure in the current frame
 +        env.define(signature.first, value)
@@ -231,7 +233,7 @@ index b18a420..75dd835 100644
          # END PROBLEM 10
      else:
          bad_signature = signature.first if isinstance(signature, Pair) else signature
-@@ -57,6 +75,8 @@ def do_quote_form(expressions, env):
+@@ -57,6 +77,8 @@ def do_quote_form(expressions, env):
      validate_form(expressions, 1, 1)
      # BEGIN PROBLEM 5
      "*** YOUR CODE HERE ***"
@@ -240,7 +242,7 @@ index b18a420..75dd835 100644
      # END PROBLEM 5
  
  def do_begin_form(expressions, env):
-@@ -82,7 +102,14 @@ def do_lambda_form(expressions, env):
+@@ -82,7 +104,14 @@ def do_lambda_form(expressions, env):
      formals = expressions.first
      validate_formals(formals)
      # BEGIN PROBLEM 7
@@ -256,7 +258,7 @@ index b18a420..75dd835 100644
      # END PROBLEM 7
  
  def do_if_form(expressions, env):
-@@ -116,6 +143,29 @@ def do_and_form(expressions, env):
+@@ -116,6 +145,29 @@ def do_and_form(expressions, env):
      """
      # BEGIN PROBLEM 12
      "*** YOUR CODE HERE ***"
@@ -286,7 +288,7 @@ index b18a420..75dd835 100644
      # END PROBLEM 12
  
  def do_or_form(expressions, env):
-@@ -134,6 +184,18 @@ def do_or_form(expressions, env):
+@@ -134,6 +186,18 @@ def do_or_form(expressions, env):
      """
      # BEGIN PROBLEM 12
      "*** YOUR CODE HERE ***"
@@ -305,7 +307,7 @@ index b18a420..75dd835 100644
      # END PROBLEM 12
  
  def do_cond_form(expressions, env):
-@@ -154,6 +216,13 @@ def do_cond_form(expressions, env):
+@@ -154,6 +218,13 @@ def do_cond_form(expressions, env):
          if is_scheme_true(test):
              # BEGIN PROBLEM 13
              "*** YOUR CODE HERE ***"
@@ -319,7 +321,7 @@ index b18a420..75dd835 100644
              # END PROBLEM 13
          expressions = expressions.rest
  
-@@ -178,6 +247,20 @@ def make_let_frame(bindings, env):
+@@ -178,6 +249,20 @@ def make_let_frame(bindings, env):
      names = vals = nil
      # BEGIN PROBLEM 14
      "*** YOUR CODE HERE ***"
@@ -340,7 +342,7 @@ index b18a420..75dd835 100644
      # END PROBLEM 14
      return env.make_child_frame(names, vals)
  
-@@ -220,6 +303,12 @@ def do_mu_form(expressions, env):
+@@ -220,6 +305,12 @@ def do_mu_form(expressions, env):
      validate_formals(formals)
      # BEGIN PROBLEM 11
      "*** YOUR CODE HERE ***"
