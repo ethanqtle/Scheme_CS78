@@ -99,10 +99,18 @@ tau
 ; expect 441
 
 ; Test problem 10
-(define (add2 x y) (+ x y))
-; expect add2
-(add2 2 3)
-; expect 5
+(define f (lambda (x) (* x 2)))
+; expect f
+(f 4)
+; expect 8
+scm> (define (f x) (* x 2))
+; expect f
+(f 2)
+; expect 4
+(define (g y) (print y) (+ y 1))
+; expect g
+(g 3)
+; expect 3; 4
 
 ; Test problem 11
 (define f (mu () (* a b)))
