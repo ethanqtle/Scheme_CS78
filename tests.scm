@@ -12,6 +12,41 @@
 ;;; ********************************
 ;;; *** Add your own tests here! (Optional) ***
 ;;; ********************************
+; Test problem 1
++
+; expect #[+]
+odd?
+; expect #[odd?]
+
+; Test problem 2
+; No tests for problem 2 from scm
+
+; Test problem 3
+(+ 1 2)
+; expect 3
+(* 3 4 (- 5 2) 1)
+; expect 36
+(odd? 31)
+; expect #t
+
+; Test problem 4
+(define a (+ 2 3))  ; Binds the symbol a to the value of (+ 2 3)
+; expect a
+(define (foo x) x)  ; Creates a procedure and binds it to the symbol foo
+; expect foo
+(define x 15)
+; expect x
+(define y (* 2 x))
+; expect y
+y
+; expect 30
+(define x 0)
+; expect x
+((define x (+ x 1)) 2)
+; expect SchemeError
+x
+; expect 1
+; Test problem 5
 
 ; Test problem 9
 (define square (lambda (x) (* x x)))
