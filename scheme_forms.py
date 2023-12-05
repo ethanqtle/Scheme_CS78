@@ -55,6 +55,8 @@ def do_define_form(expressions, env):
         # signature.first is the name of the procedure
         # signature.rest is the list of parameters
         # expressions.rest is the body of the procedure
+        # must check that the parameters are all symbols
+        validate_formals(signature.rest)
         value = LambdaProcedure(signature.rest, expressions.rest, env)
         # define the procedure in the current frame
         env.define(signature.first, value)
