@@ -48,6 +48,35 @@ x
 ; expect 1
 
 ; Test problem 5
+(quote hello)
+; expect hello
+'(cons 1 2)  ; Equivalent to (quote (cons 1 2))
+; expect (cons 1 2)
+
+(quote a)
+; expect a
+(quote (1 2))
+; expect (1 2)
+(quote (1 (2 three (4 5))))
+; expect (1 (2 three (4 5)))
+(car (quote (a b)))
+; expect a
+'hello
+; expect hello
+'(1 2)
+; expect (1 2)
+'(1 (2 three (4 5)))
+; expect (1 (2 three (4 5)))
+(car '(a b))
+; expect a
+(eval (cons 'car '('(1 2))))
+; expect 1
+(eval (define tau 6.28))
+; expect 6.28
+(eval 'tau)
+; expect 6.28
+tau
+; expect 6.28
 
 ; Test problem 9
 (define square (lambda (x) (* x x)))
