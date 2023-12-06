@@ -45,10 +45,20 @@ def scheme_apply(procedure, args, env):
     if isinstance(procedure, BuiltinProcedure):
         # BEGIN PROBLEM 2
         "*** YOUR CODE HERE ***"
+        # convert args to python list py_args
+        py_args = []
+        while args is not nil:
+            py_args.append(args.first)
+            args = args.rest
         # END PROBLEM 2
         try:
             # BEGIN PROBLEM 2
             "*** YOUR CODE HERE ***"
+            # check if procedure needs env
+            if procedure.need_env:
+                py_args.append(env)
+            # apply procedure
+            return procedure.py_func(*py_args)
             # END PROBLEM 2
         except TypeError as err:
             raise SchemeError('incorrect number of arguments: {0}'.format(procedure))
