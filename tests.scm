@@ -1,6 +1,3 @@
-;;; we can run this tests.scm by
-;;; python3 scheme.py tests.scm
-;;;
 ;;; Test cases for Scheme.
 ;;;
 ;;; In order to run only a prefix of these examples, add the line
@@ -12,157 +9,6 @@
 ;;; ********************************
 ;;; *** Add your own tests here! (Optional) ***
 ;;; ********************************
-; Test problem 1
-+
-; expect #[+]
-odd?
-; expect #[odd?]
-
-; Test problem 2
-; No tests for problem 2 from scm
-
-; Test problem 3
-(+ 1 2)
-; expect 3
-(* 3 4 (- 5 2) 1)
-; expect 36
-(odd? 31)
-; expect #t
-
-; Test problem 4
-(define a (+ 2 3))  ; Binds the symbol a to the value of (+ 2 3)
-; expect a
-(define (foo x) x)  ; Creates a procedure and binds it to the symbol foo
-; expect foo
-(define x 15)
-; expect x
-(define y (* 2 x))
-; expect y
-y
-; expect 30
-(define x 0)
-; expect x
-((define x (+ x 1)) 2)
-; expect Error
-x
-; expect 1
-
-; Test problem 5
-(quote hello)
-; expect hello
-'(cons 1 2)  ; Equivalent to (quote (cons 1 2))
-; expect (cons 1 2)
-
-(quote a)
-; expect a
-(quote (1 2))
-; expect (1 2)
-(quote (1 (2 three (4 5))))
-; expect (1 (2 three (4 5)))
-(car (quote (a b)))
-; expect a
-'hello
-; expect hello
-'(1 2)
-; expect (1 2)
-'(1 (2 three (4 5)))
-; expect (1 (2 three (4 5)))
-(car '(a b))
-; expect a
-(eval (cons 'car '('(1 2))))
-; expect 1
-(eval (define tau 6.28))
-; expect 6.28
-(eval 'tau)
-; expect 6.28
-tau
-; expect 6.28
-
-; Test problem 6
-(begin (+ 2 3) (+ 5 6))
-; expect 11
-(define x (begin (display 3) (newline) (+ 2 3)))
-; expect 3; x
-(+ x 3)
-; expect 8
-(begin (print 3) '(+ 2 3))
-; expect 3; (+ 2 3)
-
-; Test problem 7
-(lambda (x y) (+ x y))
-; expect (lambda (x y) (+ x y))
-
-; Test problem 9
-(define square (lambda (x) (* x x)))
-; expect square
-(square 21)
-; expect 441
-
-; Test problem 10
-(define f (lambda (x) (* x 2)))
-; expect f
-(f 4)
-; expect 8
-scm> (define (f x) (* x 2))
-; expect f
-(f 2)
-; expect 4
-(define (g y) (print y) (+ y 1))
-; expect g
-(g 3)
-; expect 3; 4
-
-; Test problem 11
-(define f (mu () (* a b)))
-; expect f
-(define g (lambda () (define a 4) (define b 5) (f)))
-; expect g
-(g)
-; expect 20
-
-; Test problem 12
-(and)
-; expect #t
-(and 4 5 6)  ; all operands are true values
-; expect 6
-(and 4 5 (+ 3 3))
-; expect 6
-(and #t #f 42 (/ 1 0))  ; short-circuiting behavior of and
-; expect #f
-
-(or)
-; expect #f
-(or 5 2 1)  ; 5 is a true value
-; expect 5
-(or #f (- 1 1) 1)  ; 0 is a true value in Scheme
-; expect 0
-(or 4 #t (/ 1 0))  ; short-circuiting behavior of or
-; expect 4
-
-; Test Problem 13
-(cond ((= 4 3) 'nope)
-      ((= 4 4) 'hi)
-      (else 'wait))
-; expect hi
-(cond ((= 4 3) 'wat)
-      ((= 4 4))
-      (else 'hm))
-; expect #t
-(cond ((= 4 4) 'here (+ 40 2))
-      (else 'wat 0))
-; expect 42
-
-; Test problem 14
-(define x 5)
-; expect x
-(define y 'bye)
-; expect y
-(let ((x 42)
-      (y (* x 10)))  ; this x refers to the global value of x, not 42
-  (list x y))
-; expect (42 50)
-(list x y)
-; expect (5 bye)
 
 ;;; These are examples from several sections of "The Structure
 ;;; and Interpretation of Computer Programs" by Abelson and Sussman.
@@ -229,9 +75,6 @@ size
 circumference
 ; expect 62.8318
 
-; Done with problem 5
-
-
 ;;; 1.1.4
 
 (define (square x) (* x x))
@@ -279,7 +122,6 @@ circumference
 (a-plus-abs-b 3 -2)
 ; expect 5
 
-;(exit)
 ;;; 1.1.7
 
 (define (sqrt-iter guess x)

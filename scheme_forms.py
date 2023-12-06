@@ -36,32 +36,12 @@ def do_define_form(expressions, env):
         # assigning a name to a value e.g. (define x (+ 1 2))
         validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
         # BEGIN PROBLEM 4
-        # Ethan's comments:
-        # signature is the name of the variable
-        symbol = signature
-        # expressions.rest is a scheme list of length 1
-        # expressions.rest.first is the value of the variable
-        # the value of the variable is the result of evaluating the value
-        value = scheme_eval(expressions.rest.first, env)
-        # define the variable in the current frame
-        env.define(symbol, value)
-        return symbol
+        "*** YOUR CODE HERE ***"
         # END PROBLEM 4
     elif isinstance(signature, Pair) and scheme_symbolp(signature.first):
         # defining a named procedure e.g. (define (f x y) (+ x y))
         # BEGIN PROBLEM 10
         "*** YOUR CODE HERE ***"
-        # Ethan's comments:
-        # signature.first is the name of the procedure
-        # signature.rest is the list of parameters
-        # expressions.rest is the body of the procedure
-        # must check that the parameters are all symbols
-        validate_formals(signature.rest)
-        value = LambdaProcedure(signature.rest, expressions.rest, env)
-        # define the procedure in the current frame
-        env.define(signature.first, value)
-        # return the name of the procedure
-        return signature.first
         # END PROBLEM 10
     else:
         bad_signature = signature.first if isinstance(signature, Pair) else signature
@@ -77,8 +57,6 @@ def do_quote_form(expressions, env):
     validate_form(expressions, 1, 1)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
-    # return expressions.first
-    return expressions.first
     # END PROBLEM 5
 
 def do_begin_form(expressions, env):
@@ -104,14 +82,7 @@ def do_lambda_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM 7
-    # Ethan's comments
-    # formals is a list of parameters
-    # expressions.rest is the body of the procedure
-    # Example: (lambda (x) (+ x 2))
-    # formals is (x)
-    # expressions.rest is ((+ x 2))
-    body = expressions.rest
-    return LambdaProcedure(formals, body, env)
+    "*** YOUR CODE HERE ***"
     # END PROBLEM 7
 
 def do_if_form(expressions, env):
@@ -145,29 +116,6 @@ def do_and_form(expressions, env):
     """
     # BEGIN PROBLEM 12
     "*** YOUR CODE HERE ***"
-    # Ethan's comments
-    # expressions is a list of expressions
-    # expressions.first is the first expression
-    # expressions.rest is the rest of the expressions
-    # expressions.rest.first is the second expression
-    # expressions.rest.rest is the rest of the expressions
-    # Example: (and (print 1) (print 2) (print 3) (print 4) 3 #f)
-    # expressions.first is (print 1)
-    # expressions.rest is ((print 2) (print 3) (print 4) 3 #f)
-    # ...
-
-    if expressions == nil:
-        # no expressions evaluate to True
-        return True
-    while expressions.rest != nil:
-        # short-circuit evaluation if 
-        # one of the expressions evaluates to False
-        if is_scheme_false(scheme_eval(expressions.first, env)):
-            # return the first expression that evaluates to False
-            return scheme_eval(expressions.first, env)
-        expressions = expressions.rest
-    # return the last expression
-    return scheme_eval(expressions.first, env, True)
     # END PROBLEM 12
 
 def do_or_form(expressions, env):
@@ -186,18 +134,6 @@ def do_or_form(expressions, env):
     """
     # BEGIN PROBLEM 12
     "*** YOUR CODE HERE ***"
-    if expressions == nil:
-        # no expressions evaluates to False
-        return False
-    while expressions.rest != nil:
-        # short-circuit evaluation if
-        # one of the expressions evaluates to True
-        if is_scheme_true(scheme_eval(expressions.first, env)):
-            # return the first expression that evaluates to True
-            return scheme_eval(expressions.first, env, True)
-        expressions = expressions.rest
-    # return the last expression
-    return scheme_eval(expressions.first, env, True)
     # END PROBLEM 12
 
 def do_cond_form(expressions, env):
@@ -218,13 +154,6 @@ def do_cond_form(expressions, env):
         if is_scheme_true(test):
             # BEGIN PROBLEM 13
             "*** YOUR CODE HERE ***"
-            # Ethan's comments
-            if clause.rest == nil:
-                # no expressions to evaluate
-                # return the test
-                return test
-            # evaluate the expressions in the clause
-            return eval_all(clause.rest, env)
             # END PROBLEM 13
         expressions = expressions.rest
 
@@ -249,20 +178,6 @@ def make_let_frame(bindings, env):
     names = vals = nil
     # BEGIN PROBLEM 14
     "*** YOUR CODE HERE ***"
-    # Ethan's comments
-    # bindings is a list of bindings
-    while bindings is not nil:
-        # each binding is a list of length 2
-        clause = bindings.first
-        # the first element is the name of the variable
-        # the second element is the value of the variable
-        # check that the clause is a list of length 2
-        validate_form(clause, 2, 2)
-        # add the name and value to the list of names and values
-        names, vals = Pair(clause.first, names), Pair(scheme_eval(clause.rest.first, env), vals)
-        bindings = bindings.rest
-        # check that the names are all symbols
-        validate_formals(names)
     # END PROBLEM 14
     return env.make_child_frame(names, vals)
 
@@ -305,12 +220,6 @@ def do_mu_form(expressions, env):
     validate_formals(formals)
     # BEGIN PROBLEM 11
     "*** YOUR CODE HERE ***"
-    # Ethan's comments
-    # Build a MuProcedure object from the formals and the body
-    # Example: (mu (x) (+ x 2))
-    # expressions.first is (x)
-    # expressions.rest is ((+ x 2))
-    return MuProcedure(formals, expressions.rest)
     # END PROBLEM 11
 
 

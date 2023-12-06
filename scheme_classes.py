@@ -26,25 +26,15 @@ class Frame:
     def define(self, symbol, value):
         """Define Scheme SYMBOL to have VALUE."""
         # BEGIN PROBLEM 1
-        # Ethan's comments
-        # add the symbol and value to the current frame
-        # can overwrite existing bindings
-        self.bindings[symbol] = value
+        "*** YOUR CODE HERE ***"
         # END PROBLEM 1
 
     def lookup(self, symbol):
         """Return the value bound to SYMBOL. Errors if SYMBOL is not found."""
         # BEGIN PROBLEM 1
-        if symbol in self.bindings:
-            # if the symbol is in the current frame, return the value
-            return self.bindings[symbol]
-        elif self.parent is not None:
-            # if parent is not None, look up the symbol in the parent frame
-            # this will be recursive until we reach the global frame
-            return self.parent.lookup(symbol)
-        else:
-            raise SchemeError('unknown identifier: {0}'.format(symbol))
+        "*** YOUR CODE HERE ***"
         # END PROBLEM 1
+        raise SchemeError('unknown identifier: {0}'.format(symbol))
 
 
     def make_child_frame(self, formals, vals):
@@ -61,15 +51,7 @@ class Frame:
         if len(formals) != len(vals):
             raise SchemeError('Incorrect number of arguments to function call')
         # BEGIN PROBLEM 8
-        # Ethan's comments
-        # create a new frame with the current frame as the parent
-        new_frame = Frame(self)
-        while formals != nil:
-            # define the symbol and value in the new frame
-            new_frame.define(formals.first, vals.first)
-            # move on to the next symbol and value
-            formals, vals = formals.rest, vals.rest
-        return new_frame
+        "*** YOUR CODE HERE ***"
         # END PROBLEM 8
 
 ##############

@@ -33,14 +33,7 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
         return scheme_forms.SPECIAL_FORMS[first](rest, env)
     else:
         # BEGIN PROBLEM 3
-        # Ethan's comments
-        # evaluate the first element of the list since operator
-        # can also be an expression
-        operator = scheme_eval(first, env)
-        # evaluate the rest of the elements in the list
-        # and put them in a scheme list => use map
-        operands = rest.map(lambda operand: scheme_eval(operand, env))
-        return scheme_apply(operator, operands, env)
+        "*** YOUR CODE HERE ***"
         # END PROBLEM 3
 
 def scheme_apply(procedure, args, env):
@@ -51,45 +44,21 @@ def scheme_apply(procedure, args, env):
        assert False, "Not a Frame: {}".format(env)
     if isinstance(procedure, BuiltinProcedure):
         # BEGIN PROBLEM 2
-        # Ethan's comments
-        # convert scheme list args to python list
-        # args is a scheme list
-        python_args = []
-        while args != nil:
-            # add the first element of args to python_args
-            python_args.append(args.first)
-            # move to the next element in args
-            args = args.rest
+        "*** YOUR CODE HERE ***"
         # END PROBLEM 2
         try:
             # BEGIN PROBLEM 2
             "*** YOUR CODE HERE ***"
-            # check if procedure needs env
-            if procedure.need_env:
-                python_args.append(env)
-            # apply procedure on python_args
-            # which is a python list
-            return procedure.py_func(*python_args)
             # END PROBLEM 2
         except TypeError as err:
             raise SchemeError('incorrect number of arguments: {0}'.format(procedure))
     elif isinstance(procedure, LambdaProcedure):
         # BEGIN PROBLEM 9
-        # Ethan's comments
-        # Need to make a new frame from the lambda procedure
-        # where it's created not where it's called
-        new_frame = procedure.env.make_child_frame(procedure.formals, args)
-        # evaluate the body of the procedure in the new frame
-        return eval_all(procedure.body, new_frame)
+        "*** YOUR CODE HERE ***"
         # END PROBLEM 9
     elif isinstance(procedure, MuProcedure):
         # BEGIN PROBLEM 11
         "*** YOUR CODE HERE ***"
-        # Ethan's comments
-        # make a new frame from the mu procedure from where it's called
-        # not where it's created => use env
-        mu_env = env.make_child_frame(procedure.formals, args)
-        return eval_all(procedure.body, mu_env)
         # END PROBLEM 11
     else:
         assert False, "Unexpected procedure: {}".format(procedure)
@@ -110,16 +79,7 @@ def eval_all(expressions, env):
     2
     """
     # BEGIN PROBLEM 6
-    # Ethan's comments
-    # save the last result in last_val
-    last_val = None
-    while expressions != nil:
-        # for begin, we need to evaluate all the expressions
-        last_val = scheme_eval(expressions.first, env)
-        # move on to the next expression
-        expressions = expressions.rest
-    # return the last result
-    return last_val
+    return scheme_eval(expressions.first, env) # replace this with lines of your own code
     # END PROBLEM 6
 
 
