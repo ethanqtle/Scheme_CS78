@@ -48,6 +48,20 @@ def do_define_form(expressions, env):
         # defining a named procedure e.g. (define (f x y) (+ x y))
         # BEGIN PROBLEM 10
         "*** YOUR CODE HERE ***"
+        # function name is the first element of signature
+        function_name = signature.first
+        # function parameters are the rest of signature
+        function_parameters = signature.rest
+        # check if function_parameters is a list of valid schemesymbols
+        validate_formals(function_parameters)
+        # function body is expressions.rest
+        function_body = expressions.rest
+        # create a LambdaProcedure with function_parameters and function_body
+        function = LambdaProcedure(function_parameters, function_body, env)
+        # define the function name in env
+        env.define(function_name, function)
+        # return the function name
+        return function_name
         # END PROBLEM 10
     else:
         bad_signature = signature.first if isinstance(signature, Pair) else signature
@@ -91,6 +105,8 @@ def do_lambda_form(expressions, env):
     validate_formals(formals)
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
+    # return a LambdaProcedure
+    return LambdaProcedure(formals, expressions.rest, env)
     # END PROBLEM 7
 
 def do_if_form(expressions, env):
@@ -228,6 +244,9 @@ def do_mu_form(expressions, env):
     validate_formals(formals)
     # BEGIN PROBLEM 11
     "*** YOUR CODE HERE ***"
+    # return a MuProcedure
+    # MuProcedure does not have a parent environment
+    return MuProcedure(formals, expressions.rest)
     # END PROBLEM 11
 
 
