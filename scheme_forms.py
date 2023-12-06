@@ -234,10 +234,10 @@ def make_let_frame(bindings, env):
     # add the result of evaluating the second element of bindings in env to vals
     while bindings is not nil:
         # get the first element of bindings
-        first = bindings.first
-        validate_form(first, 2, 2)
-        names = Pair(first.first, names)
-        vals = Pair(scheme_eval(first.rest.first, env), vals)
+        let_entry = bindings.first
+        validate_form(let_entry, 2, 2)
+        names = Pair(let_entry.first, names)
+        vals = Pair(scheme_eval(let_entry.rest.first, env), vals)
         bindings = bindings.rest
     # validate that names is a list of valid symbols
     validate_formals(names)
